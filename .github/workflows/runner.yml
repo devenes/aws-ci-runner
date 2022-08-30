@@ -1,8 +1,11 @@
-name: runner
+name: Runner
 
 on:
   - pull_request
+
   - push
+
+  - workflow_dispatch
 
 jobs:
   start-runner:
