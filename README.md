@@ -63,24 +63,31 @@ The following tools were used in this project:
 ## :white_check_mark: Requirements
 
 - Before starting :checkered_flag:, you need to have [Git](https://git-scm.com) and [Docker](https://www.docker.com) installed on your EC2 instance. And any other software you need to run or test the project.
+
 - After finished setting up your EC2 instance take an image (AMI) of it and use it for the runner. You will add its AMI ID in the GitHub Actions workflow.
+
 - For your safety, you need to have a separate EC2 instance for the runner.
+
 - For your safety, you need to use GitHub Actions Secrets to store your AWS credentials that you will use to connect to the AWS EC2 instances.
 
 ## :checkered_flag: Starting
 
 | Key                     | Value    | Description                              |
 | :---------------------- | :------- | :--------------------------------------- |
+| `aws-access-key-id`     | `string` | The AWS access key                       |
+| `aws-secret-access-key` | `string` | The AWS secret key                       |
 | `ec2-image-id`          | `string` | The ID of the EC2 instance AMI           |
 | `github-token`          | `string` | The GitHub token                         |
 | `aws-region`            | `string` | The region of the EC2 instance           |
 | `ec2-instance-type`     | `string` | The type of the EC2 instance             |
-| `aws-access-key-id`     | `string` | The AWS access key                       |
-| `aws-secret-access-key` | `string` | The AWS secret key                       |
 | `subnet-id`             | `string` | The ID of the subnet                     |
 | `security-group-id`     | `string` | The ID of the security group             |
 | `iam-role-name`         | `string` | The name of the IAM role for EC2 service |
 | `aws-resource-tags`     | `string` | The AWS resource tags                    |
+
+- Note that, as `ec2-image-id` you need to use your Amazon Image (AMI) ID. You can find it in the AWS EC2 console.
+
+- As `iam-role-name` you need to use the name of the IAM role for EC2 service. You can find it in the AWS IAM console. It is not in the Amazon Resource Name (ARN) format.
 
 ## :memo: License
 
