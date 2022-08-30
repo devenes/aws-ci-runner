@@ -32,7 +32,7 @@ jobs:
           ec2-instance-type: t2.micro
           subnet-id: subnet-00d458588f5a07526
           security-group-id: sg-095849f2cdbc49cd8
-          # iam-role-name: ${{ secrets.IAM_ROLE_NAME }} # optional, requires additional permissions
+          iam-role-name: ${{ secrets.IAM_ROLE_NAME }} # optional, requires additional permissions
           aws-resource-tags: > # optional, requires additional permissions
             [
               {"Key": "Name", "Value": "ec2-github-runner"},
@@ -51,7 +51,7 @@ jobs:
           ec2-instance-type: t2.micro
           subnet-id: subnet-00d458588f5a07526
           security-group-id: sg-095849f2cdbc49cd8
-          # iam-role-name: ${{ secrets.IAM_ROLE_NAME }} # optional, requires additional permissions
+          iam-role-name: ${{ secrets.IAM_ROLE_NAME }} # optional, requires additional permissions
           aws-resource-tags: > # optional, requires additional permissions
             [
               {"Key": "Name", "Value": "ec2-github-runner"},
@@ -75,7 +75,7 @@ jobs:
           echo 'Hello World!'
 
   stop-runner:
-    name: Stop self-hosted EC2 runner
+    name: Terminate self-hosted EC2 runner
 
     needs:
       - start-runner # required to get output from the start-runner job
