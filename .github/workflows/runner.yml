@@ -61,7 +61,26 @@ jobs:
               {"Key": "GitHubRepository", "Value": "${{ github.repository }}"}
             ]
 
-  run-command:
+      - name: Try to start EC2 runner
+        id: try-start-ec2-runner-1
+        if: steps.try-start-ec2-runner.outcome == 'failure'
+        uses: machulav/ec2-github-runner@v2
+        continue-on-error: true
+        with:
+          mode: start
+          github-token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+          ec2-image-id: ${{ secrets.EC2_IMAGE_ID }}
+          ec2-instance-type: t2.micro
+          subnet-id: subnet-00d458588f5a07526
+          security-group-id: sg-095849f2cdbc49cd8
+          iam-role-name: ${{ secrets.IAM_ROLE_NAME }} # optional, requires additional permissions
+          aws-resource-tags: > # optional, requires additional permissions
+            [
+              {"Key": "Name", "Value": "ec2-github-runner"},
+              {"Key": "GitHubRepository", "Value": "${{ github.repository }}"}
+            ]
+
+  deploy:
     name: Do the job on the runner
 
     needs: start-runner # required to start the main job when the runner is ready
@@ -69,6 +88,13 @@ jobs:
     runs-on: ${{ needs.start-runner.outputs.label }} # run the job on the newly created runner
 
     steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Deploy
+        run: |
+          echo "Deploying..."
+
       - name: Do the job
         run: |
           echo "Hello from the runner!"
@@ -77,12 +103,22 @@ jobs:
         run: |
           echo 'Hello World!'
 
+      - name: Run installer
+        run: |
+          git clone https://github.com/devenes/installer.git
+          cd installer
+          sudo bash installer.sh
+
+      - name: Run test installer
+        run: |
+          bash installer.sh
+
   stop-runner:
     name: Terminate self-hosted EC2 runner
 
     needs:
       - start-runner # required to get output from the start-runner job
-      - run-command # required to wait when the main job is done
+      - deploy # required to wait when the main job is done
 
     runs-on: ubuntu-latest
 
