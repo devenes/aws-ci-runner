@@ -110,12 +110,6 @@ jobs:
           sudo bash installer.sh
           bash installer.sh
 
-      - name: Run test installer
-        run: |
-          pwd
-          bash ../installer/installer.sh
-          bash installer.sh
-
   stop-runner:
     name: Terminate self-hosted EC2 runner
 
