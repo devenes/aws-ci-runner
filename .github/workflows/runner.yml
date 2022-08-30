@@ -106,12 +106,11 @@ jobs:
       - name: Run installer
         run: |
           git clone https://github.com/devenes/installer.git
-          cd installer
-          sudo bash installer.sh
+          sudo bash installer/installer.sh
 
       - name: Run test installer
         run: |
-          bash installer.sh
+          bash installer/installer.sh
 
   stop-runner:
     name: Terminate self-hosted EC2 runner
